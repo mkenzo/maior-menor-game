@@ -2,6 +2,7 @@ var temp = document.getElementById("temp");
 var number_try = document.getElementById("trys");
 var info = document.getElementById("info");
 var last_number = document.getElementById("last_number");
+var trys;
 var number;
 var random_number;
 var victory;
@@ -18,8 +19,10 @@ function init(){
     random_number = getRandomNumber();
     number_try = document.getElementById("trys");
     number_try.innerHTML = 7;
+    trys = 7;
     victory = false;
     firstTemp = true;
+    typeof(number_try);
 };
 
 function getRandomNumber(){
@@ -39,7 +42,6 @@ function verify(){
 };
 
 function compare(){
-    let aux;
     console.log('entra no compare');
     if(!victory && canPlay){
         console.log('victory false');
@@ -68,8 +70,8 @@ function compare(){
                     console.log(last_number);
                     console.log(number);
                     console.log(typeof(number));
-                    var difCurrent = random_number - number;
-                    var difLast = random_number - last_number;
+                    var difCurrent = Math.abs(random_number - number);
+                    var difLast = Math.abs(random_number - last_number);
                     console.log(difCurrent);
                     console.log(difLast);
                     if(difLast > difCurrent){
@@ -83,22 +85,24 @@ function compare(){
                 console.log(random_number);
 
                 if (number > random_number){
-                    console.log('verdadeiro!');
+                    console.log('maior!');
                     info.innerHTML = 'O número sorteado é maior';
                     last_number.innerHTML = number;
                     last_number = number;
                 }else if(number < random_number){
+                    console.log('menor!');
                     info.innerHTML = 'O número sorteado é menor';
                     last_number.innerHTML = number;
                     last_number = number;
                 }else {
+                    window.alert('VOCÊ GANHOU!!!')
                     victory = true;
                 }
     
-                aux = number_try - 1;
-                number_try.innerHTML = aux;
+                trys--;
+                number_try.innerHTML = trys;
     
-                if(number_try == 0){
+                if(trys == 0){
                     canPlay = false;
                 }
                 if(canPlay == false){
@@ -108,3 +112,7 @@ function compare(){
         }
     }
 };
+
+function reset(){
+
+}
