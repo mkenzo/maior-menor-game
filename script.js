@@ -2,6 +2,7 @@ var temp = document.getElementById("temp");
 var number_try = document.getElementById("trys");
 var info = document.getElementById("info");
 var last_number = document.getElementById("last_number");
+var last;
 var trys;
 var number;
 var random_number;
@@ -14,6 +15,7 @@ init();
 function init(){
     info.innerHTML = '--';
     last_number.innerHTML = '--';
+    last = null;
     temp.innerHTML = '--';
     canPlay = true;
     random_number = getRandomNumber();
@@ -33,7 +35,6 @@ function getRandomNumber(){
 function verify(){
     number = document.getElementById("n").value;
     if(number <  1000 && number > 0){
-        console.log('verify true');
         return true;
     }
     else{
@@ -42,60 +43,46 @@ function verify(){
 };
 
 function compare(){
-    console.log('entra no compare');
     if(!victory && canPlay){
-        console.log('victory false');
         if(verify()){
-            console.log('entra no verify');
-            
             if(firstTemp){
                 if (number > random_number){
                     info.innerHTML = 'O número sorteado é maior';
-                    last_number.innerHTML = number;
-                    last_number = number;
+                    last = number;
+                    last_number.innerHTML = last;
                 }else if(number < random_number){
                     info.innerHTML = 'O número sorteado é menor';
-                    last_number.innerHTML = number;
-                    last_number = number;
+                    last = number;
+                    last_number.innerHTML = last;
                 }else {
                     victory = true;
                 }
-                console.log(last_number);
-                console.log(number);
+                
                 firstTemp = false;
             }
             else{
-                if(last_number != number){
-                    console.log('last number e number');
-                    console.log(last_number);
-                    console.log(number);
-                    console.log(typeof(number));
+                if(last != number){
                     var difCurrent = Math.abs(random_number - number);
-                    var difLast = Math.abs(random_number - last_number);
-                    console.log(difCurrent);
-                    console.log(difLast);
+                    var difLast = Math.abs(random_number - last);
                     if(difLast > difCurrent){
                         temp.innerHTML = 'Esquentou!';
                     }else if(difLast < difCurrent){
                         temp.innerHTML = 'Esfriou!';
                     }
                 }
-                
-                console.log(number);
-                console.log(random_number);
 
                 if (number > random_number){
-                    console.log('maior!');
                     info.innerHTML = 'O número sorteado é maior';
-                    last_number.innerHTML = number;
-                    last_number = number;
+                    last = number;
+                    last_number.innerHTML = last;
                 }else if(number < random_number){
-                    console.log('menor!');
                     info.innerHTML = 'O número sorteado é menor';
-                    last_number.innerHTML = number;
-                    last_number = number;
+                    last = number;
+                    last_number.innerHTML = last;
                 }else {
                     window.alert('VOCÊ GANHOU!!!')
+                    window.confirm('Jogar de novo?')
+                    reset();
                     victory = true;
                 }
     
@@ -106,7 +93,9 @@ function compare(){
                     canPlay = false;
                 }
                 if(canPlay == false){
-                        
+                    window.alert('Suas tentativas acabaram!');
+                    window.confirm('Jogar de novo?')
+                    reset();
                 }
             }
         }
@@ -114,5 +103,5 @@ function compare(){
 };
 
 function reset(){
-
+    init();
 }
